@@ -1,0 +1,621 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1.0">
+		<title>Fast Face Detection</title>
+	</head>
+	<body>
+		<video autoplay="true" class="invisible"></video>
+		<canvas class="invisible"></canvas>
+		<pre></pre>
+
+		<style>
+			.invisible {
+				display: none;
+			}
+			body{
+				margin: 0px;
+				padding: 0px;
+  				border: 0px;
+			}
+			canvas{
+				display: block;
+			}
+			.button{
+				position:absolute;
+				right: 5%;
+				margin-top: 50.5%;
+				color:white;
+				font-size: 18px;
+				font-family: 'Helvetica';
+
+				background-color: transparent;
+				background-repeat: no-repeat;
+				border: none;
+				cursor: pointer;
+				overflow: hidden;
+				outline: none;
+			}
+			.griglia{
+				position: absolute;
+				left:5%;
+				margin-top: 50%;
+				color:white;
+				font-size: 16px;
+				font-family: 'Helvetica';
+
+
+			}
+		</style>
+
+			<input class="button" type="button" onclick="location.href='https://ixd-supsi.github.io/inter-faccia/';" value="Index" />
+		<!-- <div class="griglia">
+			click per cambiare griglia
+		</div> -->
+		<script src="./lib/face-api/face-api.min.js"></script>
+		<script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/0.9.0/p5.min.js"></script>
+
+		<script>
+			let centerX = -1
+			let centerY = -1
+				
+				init()
+	
+				async function init() {
+	
+					// Variabili per le coordinate del centro del volto (0.0..1.0)
+					
+					// Variabili “smussate” (0.0..1.0)
+					let smoothCenterX, smoothCenterY
+					// Boolean: il volto è stato individuato (true / false)
+	
+					let isFace = false
+					const canvas = document.querySelector('canvas')
+					const ctx = canvas.getContext('2d')
+	
+					// -- 1. carica i modelli --------------------------------------
+	
+					const MODELS_URI = './lib/face-api/weights'
+					await faceapi.nets.tinyFaceDetector.loadFromUri(MODELS_URI)
+					console.log('Tutti i modelli sono stati caricati.')
+	
+					// -- 2. inizializza la webcam ---------------------------------
+	
+					const webcam = document.querySelector('video');
+	
+					webcam.addEventListener('play', function() {
+						console.log('Webcam inizializzata e avviata.')
+						webcam.width = webcam.videoWidth / 2
+						webcam.height = webcam.videoHeight / 2
+						avviaFaceDetect(webcam)
+						
+					})
+	
+					// -- 3. avvia l’app -------------------------------------------
+	
+					if (navigator.mediaDevices.getUserMedia) {
+						return navigator.mediaDevices.getUserMedia({ video: true }).then(function(stream) {
+							webcam.srcObject = stream
+						}).catch(function(error) {
+							console.warn('C’è stato un problema con la webcam!')
+							console.log(error)
+						})
+					}
+	
+					function avviaFaceDetect(videoSrc) {
+						console.log('FaceDetect avviato.')
+	
+						setInterval(async function() {
+							const detections = await faceapi.detectSingleFace(videoSrc, new faceapi.TinyFaceDetectorOptions())
+							if (detections) {
+								const box = detections.box
+								// centerX e centerY sono normalizzati!
+								centerX = (box._x + box._width / 2) / videoSrc.videoWidth
+								centerY = (box._y + box._height / 2) / videoSrc.videoHeight
+								isFace = true
+							} else {
+								isFace = false
+							}
+						}, 30)
+					}
+				}
+	
+			
+			</script>
+
+		<script>
+
+			const player = {
+				x:0,
+				y:0,
+			}
+
+			const cerchi = []
+			const cerchi2 = []
+			const cerchi3 = []
+			const cerchi4 = []
+
+			const vertici = []
+			const vertici2 = []
+			const vertici3 = []
+			const vertici4 = []
+
+			let count = 0
+
+
+
+			let ultimoCerchioVisitato = null
+			let ultimoCerchioVisitato2 = null
+			let ultimoCerchioVisitato3 = null
+			let ultimoCerchioVisitato4 = null
+
+
+			function setTargets(array,row,col) {
+				array.length = 0
+				let i = 0
+				// console.log(row,col)
+				
+
+				for(let r=0; r < row; r++){
+
+						for(let c=0; c < col;  c++){
+							
+							
+							let x = (windowWidth/row)/2 + (windowWidth/row *c)
+							let y = (windowHeight/col)*1.2 + (windowHeight/col *r)
+
+							const rad = 10
+							// console.log(x,y,rad)
+
+							array[i] = {x,y,rad}
+							i++
+							// console.log(array)
+					
+						}
+				}	
+					
+			}
+
+				function setTargetHerman(array,num,num1){
+
+					array.length = 0
+					let i = 0
+
+					for(let r=0; r < num; r++){
+
+							for(let c=0; c < num1;  c++){
+								
+								
+								let x = (windowWidth/2)-250 + (windowWidth/(num*2.5) *c)
+								let y = (windowHeight/2)-250 + (windowHeight/(num1*1.5) *r)
+
+								const rad = 15
+								// console.log(x,y,rad)
+
+								array[i] = {x,y,rad}
+								i++
+								// console.log(array)
+						
+							}
+				
+				}
+
+				}
+
+				function setTargetCerchi(array,num){
+					
+					array.length=0
+					let i =0
+					
+					let raggio = 300
+					let raggio2 = 200
+					let raggio3 = 100
+					let raggio4 = 50
+					
+
+					let xcerchio = windowWidth/4 
+					let ycerchio = windowHeight/2 
+
+					let xcerchio2 = windowWidth- windowWidth/4 
+					let ycerchio2 = windowHeight/2
+					
+					for(let z=0; z<num; z++){
+
+						for(let r1=0; r1 < 396; r1 = r1 + 36){
+
+								let x = xcerchio + raggio4 * sin(r1)
+								let y = (ycerchio+70) - raggio4 * (1-cos(r1))
+
+								const rad = 8
+
+								array[i] = {x,y,rad}
+								i++
+
+
+								}
+
+						
+						for(let r1=0; r1 < 396; r1 = r1 + 36){
+
+								let x = xcerchio + raggio3 * sin(r1)
+								let y = (ycerchio+120) - raggio3 * (1-cos(r1))
+
+								const rad = 10
+
+								array[i] = {x,y,rad}
+								i++
+
+
+						}
+
+						for(let r1=0; r1 < 396; r1 = r1 + 36){
+
+							let x = xcerchio + raggio2 * sin(r1)
+							let y = (ycerchio+220) - raggio2 * (1-cos(r1))
+
+							const rad = 15
+			
+							array[i] = {x,y,rad}
+							i++
+
+
+							}
+
+						for(let r=0; r < 360+36; r = r +36){
+							
+							let x = xcerchio + raggio * sin(r)
+							let y = (ycerchio+325) - raggio * (1-cos(r))
+
+							const rad = 20
+			
+							array[i] = {x,y,rad}
+							i++
+							console.log(array)
+
+				
+						}
+
+						for(let r=0; r < 360+36; r = r +36){
+							
+							let x = xcerchio2 + raggio * sin(r)
+							let y = (ycerchio2+325) - raggio * (1-cos(r))
+
+							const rad = 20
+			
+							array[i] = {x,y,rad}
+							i++
+							console.log(array)
+
+						}
+
+						for(let r=0; r < 360+36; r = r +36){
+							
+							let x = xcerchio2 + raggio2 * sin(r)
+							let y = (ycerchio2+220) - raggio2 * (1-cos(r))
+
+							const rad = 15
+			
+							array[i] = {x,y,rad}
+							i++
+							console.log(array)
+
+						}
+
+						for(let r1=0; r1 < 396; r1 = r1 + 36){
+
+								let x = xcerchio2 + raggio3 * sin(r1)
+								let y = (ycerchio+120) - raggio3 * (1-cos(r1))
+
+								const rad = 10
+
+								array[i] = {x,y,rad}
+								i++
+
+
+								}
+
+						for(let r1=0; r1 < 396; r1 = r1 + 36){
+
+							let x = xcerchio2 + raggio4 * sin(r1)
+							let y = (ycerchio+70) - raggio4 * (1-cos(r1))
+
+							const rad = 8
+
+							array[i] = {x,y,rad}
+							i++
+
+
+							}
+
+					}
+
+				}
+
+				function setTargetRandom(array,num) {
+					array.length= 0
+					for(let i=0; i<num; i++) {
+						const x= random(50,windowWidth-100)
+						const y= random(50,windowHeight-100)
+
+						const rad = 15
+
+						array[i] = {x,y,rad}
+						// console.log(array)
+					}
+
+			}
+
+
+			function mousePressed(){
+				if(mousePressed){
+					count= count+1
+
+				}
+				if (count==1){
+					setTargets(cerchi,9,10)
+					vertici2.length=0
+					vertici3.length=0
+					vertici4.length=0
+					setTargetHerman(cerchi2,0,0)
+					setTargetCerchi(cerchi3,0,0)
+					setTargetRandom(cerchi4,0,0)
+
+
+				}
+				if (count==2){
+					setTargetHerman(cerchi2,10,10)
+					vertici.length=0
+					vertici3.length=0
+					vertici4.length=0
+					setTargets(cerchi,0,0)
+					setTargetCerchi(cerchi3,0,0)
+					setTargetRandom(cerchi4,0,0)
+
+				}
+				if (count==3){
+					setTargetCerchi(cerchi3,10)
+					vertici.length=0
+					vertici2.length=0
+					vertici4.length=0
+					setTargetHerman(cerchi2,0,0)
+					setTargets(cerchi,0,0)
+					setTargetRandom(cerchi4,0,0)
+					// console.log(vertici3)
+				}
+				if(count==4){
+					setTargetRandom(cerchi4,25)
+					vertici.length=0
+					vertici2.length=0
+					vertici3.length=0
+					setTargetHerman(cerchi2,0,0)
+					setTargets(cerchi,0,0)
+					setTargetCerchi(cerchi3,0,0)
+
+
+				}
+
+				if(count==4){
+					count=0
+				}
+
+				
+
+			}
+
+			function checkCerchi(array,punto) {
+				for(let i =0; i< array.length; i++) {
+
+					const c= array[i]
+					// console.log(array)
+					// console.log(punto.x,punto.y)
+					const d = dist(c.x,c.y,punto.x,punto.y)
+					// console.log(d)
+					// console.log(c)
+					if (d<c.rad){
+						return c
+						
+					}
+				}
+
+				return null
+
+
+			}
+
+			function disegnaCerchi(array) {
+				
+				for(let i =0; i< array.length; i++) {
+
+					const c = array[i]
+					// console.log(array)
+					// console.log(c.x,c.y)
+					circle(c.x,c.y,c.rad*2)
+
+					
+				}
+
+			}
+
+
+			function disegnaForma(array){
+					
+					beginShape()
+					for( let i=0; i<array.length; i++) {
+						// console.log(array)
+						const p = array[i]
+						// console.log(array)
+						vertex(p.x,p.y)
+						//  console.log(p.x,p.y)
+					}
+
+
+					endShape (CLOSE)
+
+
+			}
+
+			function disegnaForma2(array){
+					
+					beginShape()
+					for( let i=0; i<array.length; i++) {
+						const a = array[i]
+						// console.log(array)
+						vertex(a.x,a.y)
+						//  console.log(a.x,a.y)
+					}
+
+					endShape (CLOSE)
+
+
+
+			}
+
+			function disegnaForma3(array){
+					
+					beginShape()
+					for( let i=0; i<array.length; i++) {
+						const b = array[i]
+						// console.log(array)
+						vertex(b.x,b.y)
+						//  console.log(a.x,a.y)
+					}
+
+					endShape (CLOSE)
+
+			}
+
+			function disegnaForma4(array){
+
+				beginShape()
+					for( let i=0; i<array.length; i++) {
+						const d = array[i]
+						// console.log(array)
+						vertex(d.x,d.y)
+						//  console.log(a.x,a.y)
+					}
+
+					endShape (CLOSE)
+
+			}
+
+
+			function setup() {
+				createCanvas(windowWidth, windowHeight);
+				noStroke()
+
+			}
+
+
+			function draw() {
+				// //webcam
+				const m = 0.3
+				const cx = map(centerX,1-m,m,0,width)
+				const cy = map(centerY,m,1-m,0,height)
+
+
+				player.x+= (cx-player.x)*0.1
+				player.y+= (cy-player.y)*0.1
+
+				//————
+				// Mouse
+				
+				// player.x+= (mouseX-player.x)*0.1
+				// player.y+= (mouseY-player.y)*0.1
+
+				
+				
+
+				const cerchio = checkCerchi(cerchi,player)
+				const cerchio2 = checkCerchi(cerchi2,player)
+				const cerchio3 = checkCerchi(cerchi3,player)
+				const cerchio4 = checkCerchi(cerchi4,player)
+
+				
+				if(cerchio!=null && cerchio!=ultimoCerchioVisitato){
+					ultimoCerchioVisitato= cerchio
+					vertici.push({x:cerchio.x,y:cerchio.y})
+					
+				}
+
+				if(cerchio2!=null && cerchio2!=ultimoCerchioVisitato2){
+					ultimoCerchioVisitato2= cerchio2
+					vertici2.push({x:cerchio2.x,y:cerchio2.y})
+					// console.log(vertici2)
+					
+				}
+
+				if(cerchio3!=null && cerchio3!=ultimoCerchioVisitato3){
+					ultimoCerchioVisitato3= cerchio3
+					vertici3.push({x:cerchio3.x,y:cerchio3.y})
+					// console.log(vertici2)
+					
+				}
+
+				if(cerchio4!=null && cerchio4!=ultimoCerchioVisitato3){
+					ultimoCerchioVisitato3= cerchio4
+					vertici4.push({x:cerchio4.x,y:cerchio4.y})
+					// console.log(vertici2)
+					
+				}
+
+
+			
+				 
+				
+				background(0)
+				push()
+				textSize(26)
+				fill(255)
+				textFont('Helvetica')
+				text('fantasia',windowWidth/2-45, windowHeight/16 )
+				//(window.innerWidth/9)/2)-5
+				pop()
+
+				
+				push()
+				fill(255,0,255,98)
+				disegnaForma(vertici)
+				pop()
+
+				push()
+				fill(0,0,255,98)
+				disegnaForma2(vertici2)
+				pop()
+
+				push()
+				fill(255,255,0,98)
+				disegnaForma3(vertici3)
+				pop()
+
+				push()
+				fill(0,255,255,98)
+				disegnaForma4(vertici4)
+				pop()
+
+
+				push()
+				fill(255,255,255,35)
+				disegnaCerchi(cerchi3)
+				disegnaCerchi(cerchi)
+				pop()
+
+			
+				fill(255,255,255,35)
+				disegnaCerchi(cerchi2)
+				
+				
+				
+				fill(255,255,255,35)
+				disegnaCerchi(cerchi4)
+			
+
+
+				fill(255,0,0)
+				circle(player.x,player.y,15)
+
+			}
+
+		</script>
+	</body>
+</html>
