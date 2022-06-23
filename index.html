@@ -3,7 +3,7 @@
 	<head>
 		<meta charset="UTF-8">
 		<meta name="viewport" content="width=device-width, initial-scale=1.0">
-		<title>Fast Face Detection</title>
+		<title>Fantasia</title>
 	</head>
 	<body>
 		<video autoplay="true" class="invisible"></video>
@@ -25,9 +25,9 @@
 			.button{
 				position:absolute;
 				right: 5%;
-				margin-top: 50.5%;
+				margin-top: 51.5%;
 				color:white;
-				font-size: 18px;
+				font-size: 14px;
 				font-family: 'Helvetica';
 
 				background-color: transparent;
@@ -40,9 +40,9 @@
 			.griglia{
 				position: absolute;
 				left:5%;
-				margin-top: 50%;
+				margin-top: 51.5%;
 				color:white;
-				font-size: 16px;
+				font-size: 14px;
 				font-family: 'Helvetica';
 
 
@@ -50,9 +50,9 @@
 		</style>
 
 			<input class="button" type="button" onclick="location.href='https://ixd-supsi.github.io/inter-faccia/';" value="Index" />
-		<!-- <div class="griglia">
+		<div class="griglia">
 			click per cambiare griglia
-		</div> -->
+		</div>
 		<script src="./lib/face-api/face-api.min.js"></script>
 		<script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/0.9.0/p5.min.js"></script>
 
@@ -163,9 +163,9 @@
 							
 							
 							let x = (windowWidth/row)/2 + (windowWidth/row *c)
-							let y = (windowHeight/col)*1.2 + (windowHeight/col *r)
+							let y = (windowHeight/col)*1.1 + (windowHeight/col *r)
 
-							const rad = 10
+							const rad = 15
 							// console.log(x,y,rad)
 
 							array[i] = {x,y,rad}
@@ -338,7 +338,7 @@
 						const x= random(50,windowWidth-100)
 						const y= random(50,windowHeight-100)
 
-						const rad = 15
+						const rad = 20
 
 						array[i] = {x,y,rad}
 						// console.log(array)
@@ -523,8 +523,6 @@
 				// player.x+= (mouseX-player.x)*0.1
 				// player.y+= (mouseY-player.y)*0.1
 
-				
-				
 
 				const cerchio = checkCerchi(cerchi,player)
 				const cerchio2 = checkCerchi(cerchi2,player)
@@ -559,19 +557,19 @@
 					
 				}
 
-
-			
-				 
-				
 				background(0)
 				push()
 				textSize(26)
 				fill(255)
 				textFont('Helvetica')
-				text('fantasia',windowWidth/2-45, windowHeight/16 )
+				text('Fantasia',windowWidth/2-45, windowHeight/16 )
 				//(window.innerWidth/9)/2)-5
 				pop()
 
+				push()
+				fill(255,255,255,35)
+				disegnaCerchi(cerchi3)
+				pop()
 				
 				push()
 				fill(255,0,255,98)
@@ -596,7 +594,7 @@
 
 				push()
 				fill(255,255,255,35)
-				disegnaCerchi(cerchi3)
+				
 				disegnaCerchi(cerchi)
 				pop()
 
