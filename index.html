@@ -24,8 +24,8 @@
 			}
 			.button{
 				position:absolute;
-				right: 5%;
-				margin-top: 51.5%;
+				right: 4%;
+				margin-top: 52%;
 				color:white;
 				font-size: 14px;
 				font-family: 'Helvetica';
@@ -39,8 +39,8 @@
 			}
 			.griglia{
 				position: absolute;
-				left:5%;
-				margin-top: 51.5%;
+				left:4%;
+				margin-top: 52%;
 				color:white;
 				font-size: 14px;
 				font-family: 'Helvetica';
@@ -165,7 +165,7 @@
 							let x = (windowWidth/row)/2 + (windowWidth/row *c)
 							let y = (windowHeight/col)*1.1 + (windowHeight/col *r)
 
-							const rad = 15
+							const rad = 25
 							// console.log(x,y,rad)
 
 							array[i] = {x,y,rad}
@@ -190,7 +190,7 @@
 								let x = (windowWidth/2)-250 + (windowWidth/(num*2.5) *c)
 								let y = (windowHeight/2)-250 + (windowHeight/(num1*1.5) *r)
 
-								const rad = 15
+								const rad = 20
 								// console.log(x,y,rad)
 
 								array[i] = {x,y,rad}
@@ -227,7 +227,7 @@
 								let x = xcerchio + raggio4 * sin(r1)
 								let y = (ycerchio+70) - raggio4 * (1-cos(r1))
 
-								const rad = 8
+								const rad = 10
 
 								array[i] = {x,y,rad}
 								i++
@@ -241,7 +241,7 @@
 								let x = xcerchio + raggio3 * sin(r1)
 								let y = (ycerchio+120) - raggio3 * (1-cos(r1))
 
-								const rad = 10
+								const rad = 12
 
 								array[i] = {x,y,rad}
 								i++
@@ -254,7 +254,7 @@
 							let x = xcerchio + raggio2 * sin(r1)
 							let y = (ycerchio+220) - raggio2 * (1-cos(r1))
 
-							const rad = 15
+							const rad = 17
 			
 							array[i] = {x,y,rad}
 							i++
@@ -267,7 +267,7 @@
 							let x = xcerchio + raggio * sin(r)
 							let y = (ycerchio+325) - raggio * (1-cos(r))
 
-							const rad = 20
+							const rad = 25
 			
 							array[i] = {x,y,rad}
 							i++
@@ -281,7 +281,7 @@
 							let x = xcerchio2 + raggio * sin(r)
 							let y = (ycerchio2+325) - raggio * (1-cos(r))
 
-							const rad = 20
+							const rad = 25
 			
 							array[i] = {x,y,rad}
 							i++
@@ -294,7 +294,7 @@
 							let x = xcerchio2 + raggio2 * sin(r)
 							let y = (ycerchio2+220) - raggio2 * (1-cos(r))
 
-							const rad = 15
+							const rad = 17
 			
 							array[i] = {x,y,rad}
 							i++
@@ -307,7 +307,7 @@
 								let x = xcerchio2 + raggio3 * sin(r1)
 								let y = (ycerchio+120) - raggio3 * (1-cos(r1))
 
-								const rad = 10
+								const rad = 12
 
 								array[i] = {x,y,rad}
 								i++
@@ -320,7 +320,7 @@
 							let x = xcerchio2 + raggio4 * sin(r1)
 							let y = (ycerchio+70) - raggio4 * (1-cos(r1))
 
-							const rad = 8
+							const rad = 10
 
 							array[i] = {x,y,rad}
 							i++
@@ -384,7 +384,7 @@
 					// console.log(vertici3)
 				}
 				if(count==4){
-					setTargetRandom(cerchi4,25)
+					setTargetRandom(cerchi4,300)
 					vertici.length=0
 					vertici2.length=0
 					vertici3.length=0
